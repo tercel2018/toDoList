@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import ToDoItem from './components/ToDoList'
 import SearchBox from './components/SearchBox'
+import ToDoList  from './components/ToDoItem'
 
 class App extends Component {
   //构造函数constructor
@@ -74,17 +75,21 @@ class App extends Component {
             
             {/* 父组件向子组件传参数 ，通过props */}
               {
-                this.state.toDoList.map(toDoList =>{
-                 {/* // return <li key={toDoList.id}>{toDoList.text} </li>*/}
-                  return <ToDoItem id= {toDoList.id} 
-                  className= "item"
-                  key={toDoList.id}>
-                 <span>{toDoList.text} </span> </ToDoItem>
-                })
+                // this.state.toDoList.map(toDoList =>{
+                //  {/* // return <li key={toDoList.id}>{toDoList.text} </li>*/}
+                //   return <ToDoItem id= {toDoList.id} 
+                //   className= "item"
+                //   key={toDoList.id}>
+                //  <span>{toDoList.text} </span> </ToDoItem>
+                // })
               }
             {/* </ul> */}
+            <ToDoList
+              toDoList = {this.state.toDoList}
+            />
         </div>
       </div>
+
     );
   }
 }
