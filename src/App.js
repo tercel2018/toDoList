@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import ToDoItem from './components/ToDoList'
 import SearchBox from './components/SearchBox'
-import ToDoList  from './components/ToDoItem'
 
 class App extends Component {
   //构造函数constructor
@@ -55,7 +54,6 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-
         <SearchBox
         // 调用组件的方法时改变按钮的文字，传prop ->buttonText
         //点击组件按钮的时候，调用当前组件的方法，
@@ -75,21 +73,17 @@ class App extends Component {
             
             {/* 父组件向子组件传参数 ，通过props */}
               {
-                // this.state.toDoList.map(toDoList =>{
-                //  {/* // return <li key={toDoList.id}>{toDoList.text} </li>*/}
-                //   return <ToDoItem id= {toDoList.id} 
-                //   className= "item"
-                //   key={toDoList.id}>
-                //  <span>{toDoList.text} </span> </ToDoItem>
-                // })
+                this.state.toDoList.map(toDoList =>{
+                 {/* // return <li key={toDoList.id}>{toDoList.text} </li>*/}
+                  return <ToDoItem id= {toDoList.id} 
+                  className= "item"
+                  key={toDoList.id}>
+                 <span>{toDoList.text} </span> </ToDoItem>
+                })
               }
             {/* </ul> */}
-            <ToDoList
-              toDoList = {this.state.toDoList}
-            />
         </div>
       </div>
-
     );
   }
 }
