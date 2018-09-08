@@ -1,22 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import ToDoItem from './components/ToDoList'
-import SearchBox from './components/SearchBox'
+import 'bulma/css/bulma.css';
+import ToDoList from './components/ToDoList';
+import SearchBox from './components/SearchBox';
+import {Provider,Consumer }  from './context';
 
 class App extends Component {
-  //构造函数constructor
+  //构造函数constructor   定义状态树，可通过state 和constructor两种方式定义
   constructor(){
+    //g
     super();
     this.state ={
       inputValue : '',
       toDoList: [{
         id:Math.random().toString(),
-        text:'写代码'
+        text:'写代码',
+        isCompleterd:true
       },{
         id:Math.random().toString(),
-        text:"睡觉"
-      }]
+        text:"睡觉",
+        isCompleterd:true
+      },
+      {
+        id:Math.random().toString(),
+        text:"娱乐",
+        isCompleterd:false
+      },
+    ]
     }
   }
 
@@ -39,6 +49,7 @@ class App extends Component {
     const toDoList = this.state.toDoList.slice();
     toDoList.push({
       id:Math.random().toString(),
+      isCompleterd:false,
       text
     });
     this.setState({
@@ -46,14 +57,50 @@ class App extends Component {
       inputValue:'',
       toDoList
     })
+ 
+  }
+
+  // 此方法会通过props一层一层传递下去，最终TODoList里会通过此方法，
+  //并且会把点击的那item的id传回来
+  onItemClick = (id) =>{
+    //拷贝toDoList 数据
+    const toDoList = [...this.state.toDoList]
+    console.log(toDoList);
+    const newToDoList = toDoList.map(item=>{
+      //根据传过来的ID判断是否要修改isCompletred
+      if(item.id ===id){
+        item.isCompleterd = !item.isCompleterd
+      }
+      return item;
+    })
+    this.setState({
+      toDoList:newToDoList
+    })
   }
   render() {
     return (
+      //把Providr作为顶层组件，包住整个应用程序
+      //Procider组件提供一个value 的prop，可以传递任何值
+      <Provider value = {
+        {
+          toDoList:this.state.toDoList,
+          onItemClick:this.onItemClick
+        }
+      }>
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
+        <section class="hero is-dark">
+          <div class="hero-body">
+            <div class="container">
+              <h1 class="title">
+                 css 库 bulma
+              </h1>
+              <h2 class="subtitle">
+                 React
+              </h2>
+            </div>
+          </div>
+        </section>
+   
         <SearchBox
         // 调用组件的方法时改变按钮的文字，传prop ->buttonText
         //点击组件按钮的时候，调用当前组件的方法，
@@ -71,20 +118,17 @@ class App extends Component {
             <button 3333333333333333333333333= {this.handleAddClick}>添加</button>
             <ul className= "toDoList"> */}
             
-            {/* 父组件向子组件传参数 ，通过props */}
-              {
-                this.state.toDoList.map(toDoList =>{
-                 {/* // return <li key={toDoList.id}>{toDoList.text} </li>*/}
-                  return <ToDoItem id= {toDoList.id} 
-                  className= "item"
-                  key={toDoList.id}>
-                 <span>{toDoList.text} </span> </ToDoItem>
-                })
-              }
-            {/* </ul> */}
+          
+            <ToDoList
+              toDoList = {this.state.toDoList}
+              // onItemClick = {this.onItemClick}
+              console
+            />
         </div>
       </div>
+      </Provider>
     );
+    
   }
 }
 

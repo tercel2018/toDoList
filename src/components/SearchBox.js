@@ -50,15 +50,25 @@ export default class SearchBox extends Component {
     } = this.props;
     console.log(this.props) 
     return (
-      <div className= "searchBox">
-      {/* 文本框 */}
-       <input 
-            value = {this.state.inputValue}
-            // input都有一个onChange属性
-            onChange = {this.handleInputChange}
-            type="text"/> 
-            <button onClick= {this.handAddClick}>{buttonText}</button>
-      </div>
+        <div>
+        <div className="field has-addons searchbox">
+        <div className="control">
+            <input
+            className = "input"
+              value = {this.state.inputValue}
+              onChange = {this.handleInputChange}
+              type ="text"
+            />
+        </div>
+        <div className="control">
+            <a onClick= {this.handAddClick} className="button is-info">
+           {buttonText}
+            </a>
+        </div>
+        </div>
+        </div>
+
+    
     )
   }
 }
