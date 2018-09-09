@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios'
+
 import './App.css';
 import 'bulma/css/bulma.css';
 import ToDoList from './components/ToDoList';
@@ -12,22 +14,19 @@ class App extends Component {
     super();
     this.state ={
       inputValue : '',
-      toDoList: [{
-        id:Math.random().toString(),
-        text:'写代码',
-        isCompleterd:true
-      },{
-        id:Math.random().toString(),
-        text:"睡觉",
-        isCompleterd:true
-      },
-      {
-        id:Math.random().toString(),
-        text:"娱乐",
-        isCompleterd:false
-      },
-    ]
+      toDoList: [   ],
+      isLoading:true
     }
+  }
+
+  componentDidMount(){
+    axios.get('http://rap2api.taobao.org/app/mock/84644/api/v1')
+    .then(resp=>{
+      this.setState({
+        toDoList:resp.data.data,
+        isLoading:false
+      })
+    })
   }
 
   // onAdd = (text) =>{
@@ -77,8 +76,15 @@ class App extends Component {
       toDoList:newToDoList
     })
   }
-  render() {
+
+
+
+  render() {  
     return (
+      this.state.isLoading
+      ?
+      <div>正在加载。。。</div>
+      :
       //把Providr作为顶层组件，包住整个应用程序
       //Procider组件提供一个value 的prop，可以传递任何值
       <Provider value = {
@@ -88,13 +94,13 @@ class App extends Component {
         }
       }>
       <div className="App">
-        <section class="hero is-dark">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">
+        <section className="hero is-dark">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title">
                  css 库 bulma
               </h1>
-              <h2 class="subtitle">
+              <h2 className="subtitle">
                  React
               </h2>
             </div>
@@ -116,8 +122,7 @@ class App extends Component {
             onChange = {this.handleInputChange}
             type="text"/> 
             <button 3333333333333333333333333= {this.handleAddClick}>添加</button>
-            <ul className= "toDoList"> */}
-            
+            <ul className= "toDoList"> */}         
           
             <ToDoList
               toDoList = {this.state.toDoList}
